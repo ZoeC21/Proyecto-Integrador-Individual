@@ -1,8 +1,20 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const app = express();
+const cors = require("cors");
 
+require("./app/routes/kpopdata.routes")(app);
 
+const port = 3000;
+
+var corsOptions = {
+    origin: "http://localhost:8081"
+};
+
+app.use(cors(corsOptions));
+
+app.use(express.json());
+
+app.use(express.urlencoded({extended: true}));
 
 app.get('/', async(req, res)=> {
     const url = 'https://k-pop.p.rapidapi.com/boy-groups?q=BTS&by=Group%20Name';
@@ -22,6 +34,10 @@ app.get('/', async(req, res)=> {
     } catch (error) {
         console.error(error);
     }
+
+    
+
+
 })
 
 app.listen(port, () =>{
